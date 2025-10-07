@@ -2,12 +2,27 @@
 # Licensed under the Proprietary License. See LICENSE file for details.
 
 import pandas as pd
-import pandas_ta
 import yfinance as  yfi
-import pandas_ta as ta
 import random
 from datasets import load_dataset, Dataset, concatenate_datasets
 from .utils import logger
+
+# Try to import pandas_ta, but provide fallback
+try:
+    import pandas_ta
+    HAS_PANDAS_TA = True
+except ImportError:
+    HAS_PANDAS_TA = False
+    
+
+def calculate_rsi(series, period=14):
+    """Calculate RSI indicator without pandas_ta"""
+    delta = series.diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    rs = gain / loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
 
 
 class DataFetcher:
@@ -31,7 +46,10 @@ class DataFetcher:
         """Fetch time-series data with indicators."""
         try:
             data = yfi.download(ticker, period="1y")
-            data['RSI'] = pandas_ta.rsi(data['Close'])
+            if HAS_PANDAS_TA:
+                data['RSI'] = pandas_ta.rsi(data['Close'])
+            else:
+                data['RSI'] = calculate_rsi(data['Close'])
             return data.tail(50).to_csv(index=True)
         except Exception as e:
             logger.error(f"Time-series fetch failed for {ticker}: {e}")

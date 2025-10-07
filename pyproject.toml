@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Privacy-preserving agentic SLM for quant strategy forging"
 authors = ["Venkata Vikhyat Choppa"]
 readme = "README.md"
+license = "Proprietary"
 homepage = "https://github.com/vikkychoppa/quantstratforge"
 repository = "https://github.com/vikkychoppa/quantstratforge"
 keywords = ["quantitative", "trading", "ai", "machine-learning", "finance", "privacy", "federated-learning"]
@@ -33,7 +34,6 @@ huggingface_hub = ">=0.17.0,<1.0.0"
 flower = ">=2.0.0,<3.0.0"
 flwr = ">=1.8.0,<2.0.0"
 yfinance = ">=0.2.0,<1.0.0"
-pandas-ta = ">=0.4.67b0,<1.0.0"
 websockets = ">=12.0.0,<16.0.0"
 
 [tool.poetry.group.demo.dependencies]
