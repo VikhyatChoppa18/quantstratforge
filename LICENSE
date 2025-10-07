@@ -1,13 +1,13 @@
-Proprietary Software License Agreement for QuantStratForge
+Copyright 2025 Venkata Vikhyat Choppa
 
-Copyright (c) 2025 Venkata Vikhyat Choppa
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-All rights reserved.
+    http://www.apache.org/licenses/LICENSE-2.0
 
-This software, QuantStratForge, is proprietary and confidential. No part of this software may be reproduced, distributed, or modified without the prior written permission of the copyright holder.
-
-Usage of this software requires a royalty-based license agreement. Each use of the software for generating trading strategies, backtesting, or optimization incurs a royalty fee as outlined in the licensing agreement. Contact Venkata Vikhyat Choppa <vikkychoppa@gmail.com> for licensing terms and royalty rates.
-
-Unauthorized use, distribution, or modification of this software is strictly prohibited and may result in legal action.
-
-For licensing inquiries, contact: Venkata Vikhyat Choppa <vikkychoppa@gmail.com>
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
