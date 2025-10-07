@@ -273,7 +273,7 @@ ruff check . --fix
 
 This project is licensed under a Proprietary License. See [LICENSE](LICENSE) for details.
 
-**Commercial Use**: Requires a royalty-based license. Contact [vikkychoppa@gmail.com](mailto:vikkychoppa@gmail.com) for licensing terms.
+**Commercial Use**: Requires a royalty-based license. Contact [vikkychoppa@gmail.com](mailto:vikhyathchoppa699@gmail.com) for licensing terms.
 
 ## 🆘 Support
 
