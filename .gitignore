@@ -120,11 +120,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be added to the global gitignore or merged into this project gitignore.  For a PyCharm
-#  project, it is generally recommended to include .idea/ in version control, but for this
-#  specific project, we'll ignore it since it's IDE-specific
+
 .idea/
 
 # VS Code
