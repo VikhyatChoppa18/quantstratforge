@@ -1,7 +1,7 @@
 # 📈 QuantStratForge
 
 [![PyPI version](https://badge.fury.io/py/quantstratforge.svg)](https://badge.fury.io/py/quantstratforge)
-[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![Downloads](https://pepy.tech/badge/quantstratforge)](https://pepy.tech/project/quantstratforge)
 
@@ -271,9 +271,7 @@ ruff check . --fix
 
 ## 📄 License
 
-This project is licensed under a Proprietary License. See [LICENSE](LICENSE) for details.
-
-**Commercial Use**: Requires a royalty-based license. Contact [vikhyathchoppa699@gmail.com](mailto:vikhyathchoppa699@gmail.com) for licensing terms.
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ## 🆘 Support
 

@@ -1,5 +1,5 @@
 # Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Proprietary License. See LICENSE file for details.
+# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
 
 import pandas as pd
 import yfinance as  yfi
@@ -31,6 +31,7 @@ class DataFetcher:
         self.split = split
         self.synthetic_count = synthetic_count
         self.final_dataset = None
+        self._cached_time_series = None  # Cache for time series data
 
     def fetch_base_dataset(self):
         """Load base dataset."""
@@ -42,15 +43,26 @@ class DataFetcher:
             logger.error(f"Dataset load failed: {e}")
             raise
 
-    def get_time_series(self, ticker="AAPL"):
+    def get_time_series(self, ticker="AAPL", use_cache=True):
         """Fetch time-series data with indicators."""
         try:
-            data = yfi.download(ticker, period="1y")
+            # Use cached data if available (for training data preparation)
+            if use_cache and self._cached_time_series is not None:
+                return self._cached_time_series
+            
+            data = yfi.download(ticker, period="1y", progress=False)
             if HAS_PANDAS_TA:
                 data['RSI'] = pandas_ta.rsi(data['Close'])
             else:
                 data['RSI'] = calculate_rsi(data['Close'])
-            return data.tail(50).to_csv(index=True)
+            
+            result = data.tail(50).to_csv(index=True)
+            
+            # Cache the result if caching is enabled
+            if use_cache:
+                self._cached_time_series = result
+            
+            return result
         except Exception as e:
             logger.error(f"Time-series fetch failed for {ticker}: {e}")
             return "Error fetching data"
@@ -78,11 +90,16 @@ class DataFetcher:
             label_map = {0: "low", 1: "medium", 2: "high"}
             risk = label_map[example["label"]]
             time_series = self.get_time_series()
-            text = f"Analyze quant data for strategy: Statement: {example['sentence']}\nTime-Series: {time_series}\nRisk Level: {risk}\nGenerate Strategy Code: "
+            
+            # Get sentence or create synthetic one
+            sentence = example.get("sentence", "Market analysis shows positive momentum.")
+            
+            text = f"Analyze quant data for strategy: Statement: {sentence}\nTime-Series: {time_series}\nRisk Level: {risk}\nGenerate Strategy Code: "
             if add_strategy:
                 strat = self.generate_synthetic_strategy(risk)
                 text += f"\n{strat['code']}\nBacktest Results: Simulated Sharpe 1.2\nOptimization Explanation: {strat['explanation']}"
-            return {"text": text, "label": risk}
+            # Return only text, remove label to avoid schema conflicts
+            return {"text": text}
         except Exception as e:
             logger.error(f"Example formatting failed: {e}")
             raise

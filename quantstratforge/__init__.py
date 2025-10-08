@@ -1,5 +1,5 @@
 # Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Proprietary License. See LICENSE file for details.
+# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
 
 from .data_prep import DataFetcher
 from .model import StrategyModel
@@ -10,4 +10,4 @@ from .utils import add_watermark, logger
 
 __version__ = "0.1.0"
 __author__ = "Venkata Vikhyat Choppa"
-__license__ = "Proprietary"
+__license__ = "Apache-2.0"

@@ -160,3 +160,9 @@ logs/
 .env
 config.ini
 secrets.json
+
+# Publishing helper files (personal/development use)
+publish_helper.sh
+PUBLISHING_TO_PYPI.md
+PYPI_PUBLISHING_GUIDE.md
+PROJECT_SUMMARY.md

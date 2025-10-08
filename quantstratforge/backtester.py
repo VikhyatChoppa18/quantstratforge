@@ -1,5 +1,5 @@
 # Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Apache 2.0 License. See LICENSE file for details.
+# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
 
 import yfinance as yf
 import pandas as pd
@@ -17,6 +17,12 @@ class Backtester:
         """Fetching historical market data for the specified ticker."""
         try:
             self.data = yf.download(self.ticker, period=self.period)
+            
+            # Flatten MultiIndex columns if present
+            if isinstance(self.data.columns, pd.MultiIndex):
+                # For single ticker, just take the first level (prices)
+                self.data.columns = self.data.columns.get_level_values(0)
+            
             logger.info(f"Data fetched for {self.ticker}")
             return self.data
         except Exception as e:
@@ -30,6 +36,10 @@ class Backtester:
                 return signals.astype(int)
             elif signals.dtype == 'object':
                 return signals.apply(lambda x: 1 if x == 'Buy' else 0)
+        elif isinstance(signals, pd.DataFrame):
+            # If signals is a DataFrame, take the first column
+            signals = signals.iloc[:, 0]
+            return self.normalize_signals(signals)
         return signals
 
     def backtest(self, strategy_code):
@@ -59,12 +69,23 @@ class Backtester:
                 raise ValueError("strategy_code must be a string defining 'strategy_func' or a callable function")
 
             # Executing strategy
-            signals = strategy_func(self.data)
+            signals = strategy_func(self.data.copy())
             signals = self.normalize_signals(signals)
             if not isinstance(signals, (pd.Series, pd.DataFrame)) or len(signals) != len(self.data):
                 raise ValueError("strategy_func must return a pandas Series/DataFrame of same length as data")
 
-            returns = self.data['Close'].pct_change() * signals.shift(1)
+            # Ensure signals is a Series
+            if isinstance(signals, pd.DataFrame):
+                signals = signals.iloc[:, 0]
+            
+            # Align signals index with data index
+            signals = signals.reindex(self.data.index)
+            
+            # Calculate returns
+            close_prices = self.data['Close']
+            returns = close_prices.pct_change() * signals.shift(1)
+            
+            # Calculate metrics
             sharpe = returns.mean() / returns.std() * (252 ** 0.5) if returns.std() != 0 else 0
             cum_returns = returns.cumsum().iloc[-1] if not returns.empty else 0
             logger.info(f"Backtest complete for {self.ticker}")

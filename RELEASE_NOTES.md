@@ -1,3 +1,4 @@
+
 # Release Notes
 
 ## v0.1.0 (Initial Release) - October 2024
@@ -125,9 +126,7 @@ We welcome contributions! The project is open source and community-driven.
 
 ### 📄 License
 
-This project is licensed under a Proprietary License. See [LICENSE](LICENSE) for details.
-
-**Commercial Use**: Requires a royalty-based license. Contact [vikkychoppa@gmail.com](mailto:vikkychoppa@gmail.com) for licensing terms.
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ### 🆘 Support
 

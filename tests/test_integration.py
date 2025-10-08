@@ -1,5 +1,5 @@
 # Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Proprietary License. See LICENSE file for details.
+# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
 
 import pytest
 import pandas as pd
