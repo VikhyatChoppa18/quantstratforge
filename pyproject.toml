@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "quantstratforge"
-version = "0.1.0"
+version = "0.2.0"
 description = "Privacy-preserving agentic SLM for quant strategy forging"
 authors = ["Venkata Vikhyat Choppa"]
 readme = "README.md"

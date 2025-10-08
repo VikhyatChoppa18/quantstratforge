@@ -8,6 +8,6 @@ from .backtester import Backtester
 from .optimizer import Optimizer
 from .utils import add_watermark, logger
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Venkata Vikhyat Choppa"
 __license__ = "Apache-2.0"
