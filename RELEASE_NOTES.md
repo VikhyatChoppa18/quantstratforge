@@ -1,6 +1,8 @@
 
 # Release Notes
-
+ pypi using [poetry 
+ 
+ +]
 ## v0.1.0 (Initial Release) - October 2024
 
 ### 🎉 What's New
@@ -110,10 +112,10 @@ pytest tests/ -v
 
 ### 📚 Documentation
 
-- [Complete README](https://github.com/vikkychoppa/quantstratforge#readme)
-- [API Reference](https://github.com/vikkychoppa/quantstratforge#api-reference)
-- [Demo Instructions](https://github.com/vikkychoppa/quantstratforge/blob/main/DEMO_INSTRUCTIONS.md)
-- [Viral Launch Strategy](https://github.com/vikkychoppa/quantstratforge/blob/main/VIRAL_LAUNCH_STRATEGY.md)
+- [Complete README](https://github.com/vikhyatchoppa18/quantstratforge#readme)
+- [API Reference](https://github.com/vikhyatchoppa18/quantstratforge#api-reference)
+- [Demo Instructions](https://github.com/vikhyatchoppa18/quantstratforge/blob/main/DEMO_INSTRUCTIONS.md)
+
 
 ### 🤝 Contributing
 
@@ -130,9 +132,9 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 
 ### 🆘 Support
 
-- **GitHub Issues**: [Report bugs or ask questions](https://github.com/vikkychoppa/quantstratforge/issues)
-- **Email**: [vikkychoppa@gmail.com](mailto:vikkychoppa@gmail.com)
-- **Documentation**: [Full documentation](https://github.com/vikkychoppa/quantstratforge#readme)
+- **GitHub Issues**: [Report bugs or ask questions](https://github.com/vikhyatchoppa18/quantstratforge/issues)
+- **Email**: [vikkychoppa@gmail.com](mailto:vikhyathchoppa699@gmail.com)
+- **Documentation**: [Full documentation](https://github.com/vikhyatchoppa18/quantstratforge#readme)
 
 ### 🌟 Acknowledgments
 

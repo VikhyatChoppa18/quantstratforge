@@ -8,9 +8,9 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import individual test modules
-from test_demos import main as test_core_demos
-from test_fastapi_demo import main as test_fastapi
-from test_notebook_demo import main as test_notebook
+from .test_demos import main as test_core_demos
+from .test_fastapi_demo import main as test_fastapi
+from .test_notebook_demo import main as test_notebook
 
 
 def main():
