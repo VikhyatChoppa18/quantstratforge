@@ -188,4 +188,4 @@ if st.button("Optimize Strategy"):
 # Footer
 st.markdown("---")
 st.markdown("**QuantStratForge** - Privacy-preserving AI for quantitative strategy development")
-st.markdown("For licensing inquiries, contact: Venkata Vikhyat Choppa <vikkychoppa@gmail.com>")
+st.markdown("For licensing inquiries, contact: Venkata Vikhyat Choppa <vikhyathchoppa699@gmail.com>")
