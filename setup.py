@@ -11,7 +11,7 @@ setup(
     description="Privacy-preserving agentic SLM for quant strategy forging",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/vikhyatchoppa/quantstratforge",
+    url="https://github.com/VikhyatChoppa18/QuantStratForge",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",

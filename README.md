@@ -276,8 +276,8 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 ## 🆘 Support
 
 - **Documentation**: [https://quantstratforge.readthedocs.io](https://quantstratforge.readthedocs.io)
-- **Issues**: [GitHub Issues](https://github.com/vikhyatchoppa/quantstratforge/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/vikhyatchoppa/quantstratforge/discussions)
+- **Issues**: [GitHub Issues](https://github.com/VikhyatChoppa18/QuantStratForge/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/VikhyatChoppa18/QuantStratForge/discussions)
 
 ## 🌟 Acknowledgments
 
