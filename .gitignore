@@ -166,3 +166,11 @@ publish_helper.sh
 PUBLISHING_TO_PYPI.md
 PYPI_PUBLISHING_GUIDE.md
 PROJECT_SUMMARY.md
+
+poetry.lock
+pyproject.toml
+setup.py
+
+
+
+#poetry
