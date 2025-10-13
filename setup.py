@@ -7,7 +7,7 @@ setup(
     name="quantstratforge",
     version="0.2.1",
     author="Venkata Vikhyat Choppa",
-    author_email="vikhyathchoppa699@gmail.com",
+    author_email="",
     description="Privacy-preserving agentic SLM for quant strategy forging",
     long_description=long_description,
     long_description_content_type="text/markdown",

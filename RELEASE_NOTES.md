@@ -133,7 +133,6 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 ### 🆘 Support
 
 - **GitHub Issues**: [Report bugs or ask questions](https://github.com/vikhyatchoppa/quantstratforge/issues)
-- **Email**: [vikhyathchoppa699@gmail.com](mailto:vikhyathchoppa699@gmail.com)
 - **Documentation**: [Full documentation](https://github.com/vikhyatchoppa/quantstratforge#readme)
 
 ### 🌟 Acknowledgments
