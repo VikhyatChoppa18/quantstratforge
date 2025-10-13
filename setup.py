@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="quantstratforge",
-    version="0.2.0",
+    version="0.2.1",
     author="Venkata Vikhyat Choppa",
     author_email="vikhyathchoppa699@gmail.com",
     description="Privacy-preserving agentic SLM for quant strategy forging",
