@@ -1,22 +1,17 @@
-# Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
-
 import pandas as pd
 import yfinance as  yfi
 import random
 from datasets import load_dataset, Dataset, concatenate_datasets
 from .utils import logger
 
-# Try to import pandas_ta, but provide fallback
 try:
     import pandas_ta
     HAS_PANDAS_TA = True
 except ImportError:
     HAS_PANDAS_TA = False
     
-
+    
 def calculate_rsi(series, period=14):
-    """Calculate RSI indicator without pandas_ta"""
     delta = series.diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
@@ -31,10 +26,9 @@ class DataFetcher:
         self.split = split
         self.synthetic_count = synthetic_count
         self.final_dataset = None
-        self._cached_time_series = None  # Cache for time series data
+        self._cached_time_series = {}
 
     def fetch_base_dataset(self):
-        """Load base dataset."""
         try:
             dataset = load_dataset(self.dataset, self.split)
             logger.info("Base dataset loaded.")
@@ -44,31 +38,39 @@ class DataFetcher:
             raise
 
     def get_time_series(self, ticker="AAPL", use_cache=True):
-        """Fetch time-series data with indicators."""
         try:
-            # Use cached data if available (for training data preparation)
-            if use_cache and self._cached_time_series is not None:
-                return self._cached_time_series
+            if use_cache and ticker in self._cached_time_series:
+                logger.info(f"Using cached data for {ticker}")
+                return self._cached_time_series[ticker]
             
-            data = yfi.download(ticker, period="1y", progress=False)
+            logger.info(f"Fetching fresh data for {ticker}")
+            data = yfi.download(ticker, period="1y", progress=False, auto_adjust=True)
+            
+            if data.empty:
+                logger.error(f"No data returned for {ticker}")
+                return f"Error: No data available for {ticker}"
+            
+            if isinstance(data.columns, pd.MultiIndex):
+                logger.warning(f"Unexpected MultiIndex columns for single ticker {ticker}, flattening")
+                data.columns = data.columns.get_level_values(0)
+            
             if HAS_PANDAS_TA:
                 data['RSI'] = pandas_ta.rsi(data['Close'])
             else:
                 data['RSI'] = calculate_rsi(data['Close'])
             
-            result = data.tail(50).to_csv(index=True)
+            result = data.tail(50).to_csv(index=True, index_label='Date')
             
-            # Cache the result if caching is enabled
             if use_cache:
-                self._cached_time_series = result
+                self._cached_time_series[ticker] = result
             
+            logger.info(f"Successfully fetched data for {ticker}, shape: {data.tail(50).shape}")
             return result
         except Exception as e:
             logger.error(f"Time-series fetch failed for {ticker}: {e}")
-            return "Error fetching data"
+            return f"Error fetching data for {ticker}: {str(e)}"
 
     def generate_synthetic_strategy(self, risk_level):
-        """Generate synthetic strategy code."""
         try:
             if risk_level == "low":
                 code = "def low_risk_strategy(df):\n    return df['Close'] > df['Close'].rolling(20).mean()"
@@ -85,27 +87,23 @@ class DataFetcher:
             raise
 
     def format_example(self, example, add_strategy=False):
-        """Format prompt for training."""
         try:
             label_map = {0: "low", 1: "medium", 2: "high"}
             risk = label_map[example["label"]]
             time_series = self.get_time_series()
             
-            # Get sentence or create synthetic one
             sentence = example.get("sentence", "Market analysis shows positive momentum.")
             
             text = f"Analyze quant data for strategy: Statement: {sentence}\nTime-Series: {time_series}\nRisk Level: {risk}\nGenerate Strategy Code: "
             if add_strategy:
                 strat = self.generate_synthetic_strategy(risk)
                 text += f"\n{strat['code']}\nBacktest Results: Simulated Sharpe 1.2\nOptimization Explanation: {strat['explanation']}"
-            # Return only text, remove label to avoid schema conflicts
             return {"text": text}
         except Exception as e:
             logger.error(f"Example formatting failed: {e}")
             raise
 
     def prepare_data(self):
-        """Prepare and save dataset."""
         try:
             dataset = self.fetch_base_dataset()
             formatted_dataset = dataset.map(self.format_example)

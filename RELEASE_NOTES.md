@@ -112,9 +112,9 @@ pytest tests/ -v
 
 ### 📚 Documentation
 
-- [Complete README](https://github.com/vikhyatchoppa18/quantstratforge#readme)
-- [API Reference](https://github.com/vikhyatchoppa18/quantstratforge#api-reference)
-- [Demo Instructions](https://github.com/vikhyatchoppa18/quantstratforge/blob/main/DEMO_INSTRUCTIONS.md)
+- [Complete README](https://github.com/vikhyatchoppa/quantstratforge#readme)
+- [API Reference](https://github.com/vikhyatchoppa/quantstratforge#api-reference)
+- [Demo Instructions](https://github.com/vikhyatchoppa/quantstratforge/blob/main/DEMO_INSTRUCTIONS.md)
 
 
 ### 🤝 Contributing
@@ -132,9 +132,9 @@ This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) fo
 
 ### 🆘 Support
 
-- **GitHub Issues**: [Report bugs or ask questions](https://github.com/vikhyatchoppa18/quantstratforge/issues)
-- **Email**: [vikkychoppa@gmail.com](mailto:vikhyathchoppa699@gmail.com)
-- **Documentation**: [Full documentation](https://github.com/vikhyatchoppa18/quantstratforge#readme)
+- **GitHub Issues**: [Report bugs or ask questions](https://github.com/vikhyatchoppa/quantstratforge/issues)
+- **Email**: [vikhyathchoppa699@gmail.com](mailto:vikhyathchoppa699@gmail.com)
+- **Documentation**: [Full documentation](https://github.com/vikhyatchoppa/quantstratforge#readme)
 
 ### 🌟 Acknowledgments
 
@@ -159,8 +159,8 @@ pip install quantstratforge
 ## Links
 
 - **PyPI**: https://pypi.org/project/quantstratforge/
-- **GitHub**: https://github.com/vikkychoppa/quantstratforge
-- **Documentation**: https://github.com/vikkychoppa/quantstratforge#readme
+- **GitHub**: https://github.com/vikhyatchoppa/quantstratforge
+- **Documentation**: https://github.com/vikhyatchoppa/quantstratforge#readme
 
 ---
 

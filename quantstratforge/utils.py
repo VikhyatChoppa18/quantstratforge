@@ -1,6 +1,3 @@
-# Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Apache 2.0 License. See LICENSE file for details.
-
 import logging
 import hashlib
 

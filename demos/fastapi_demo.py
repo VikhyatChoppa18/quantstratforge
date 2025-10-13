@@ -1,6 +1,3 @@
-# Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
-
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
@@ -10,14 +7,12 @@ import uvicorn
 import json
 from quantstratforge import DataFetcher, StrategyGenerator, Backtester, Optimizer
 
-# Initialize FastAPI app
 app = FastAPI(
     title="QuantStratForge API",
     description="Privacy-preserving agentic SLM for quant strategy forging",
     version="0.1.0"
 )
 
-# Pydantic models
 class MarketDataRequest(BaseModel):
     ticker: str = "AAPL"
     period: str = "1y"
@@ -39,7 +34,6 @@ class OptimizationRequest(BaseModel):
     ticker: str = "AAPL"
     period: str = "1y"
 
-# Initialize components
 data_fetcher = DataFetcher()
 try:
     generator = StrategyGenerator()
@@ -50,7 +44,6 @@ except FileNotFoundError:
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    """Serve the main demo page"""
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -135,7 +128,6 @@ async def root():
                 <div class="form-group">
                     <label for="strategyCode">Strategy Code:</label>
                     <textarea id="strategyCode" rows="8">def strategy_func(df):
-    # Simple moving average strategy
     df['MA_20'] = df['Close'].rolling(20).mean()
     signals = df['Close'] > df['MA_20']
     return signals.astype(int)</textarea>
@@ -159,9 +151,8 @@ async def root():
                 <div class="form-group">
                     <label for="optimizationCode">Strategy Code:</label>
                     <textarea id="optimizationCode" rows="8">def strategy_func(df):
-    # Parameterized moving average strategy
-    threshold = {threshold}  # Will be replaced during optimization
-    period = {period}        # Will be replaced during optimization
+    threshold = {threshold}
+    period = {period}
     df['MA'] = df['Close'].rolling(period).mean()
     signals = df['Close'] > df['MA'] * (1 + threshold)
     return signals.astype(int)</textarea>
@@ -270,7 +261,6 @@ async def root():
 
 @app.post("/api/market-data")
 async def get_market_data(request: MarketDataRequest):
-    """Fetch market data for a given ticker"""
     try:
         data = data_fetcher.get_time_series(request.ticker)
         return {"ticker": request.ticker, "data": data, "status": "success"}
@@ -279,7 +269,6 @@ async def get_market_data(request: MarketDataRequest):
 
 @app.post("/api/generate-strategy")
 async def generate_strategy(request: StrategyRequest):
-    """Generate AI strategy based on market conditions"""
     if not MODEL_AVAILABLE:
         raise HTTPException(
             status_code=503, 
@@ -287,10 +276,8 @@ async def generate_strategy(request: StrategyRequest):
         )
     
     try:
-        # Get time series data
         time_series = data_fetcher.get_time_series(request.ticker)
         
-        # Generate strategy
         input_data = f"Ticker: {request.ticker}\nRisk Level: {request.risk_level}\nNews: {request.news_sentiment}\nTime Series: {time_series}"
         result = generator.generate(input_data)
         
@@ -306,7 +293,6 @@ async def generate_strategy(request: StrategyRequest):
 
 @app.post("/api/backtest")
 async def run_backtest(request: BacktestRequest):
-    """Run backtest on a strategy"""
     try:
         backtester = Backtester(ticker=request.ticker, period=request.period)
         results = backtester.backtest(request.strategy_code)
@@ -322,7 +308,6 @@ async def run_backtest(request: BacktestRequest):
 
 @app.post("/api/optimize")
 async def optimize_strategy(request: OptimizationRequest):
-    """Optimize strategy parameters"""
     try:
         backtester = Backtester(ticker=request.ticker, period=request.period)
         optimizer = Optimizer(backtester)
@@ -340,7 +325,6 @@ async def optimize_strategy(request: OptimizationRequest):
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
     return {"status": "healthy", "service": "QuantStratForge API"}
 
 if __name__ == "__main__":

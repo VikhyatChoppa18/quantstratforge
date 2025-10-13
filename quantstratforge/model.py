@@ -1,6 +1,3 @@
-# Copyright (c) 2025 Venkata Vikhyat Choppa
-# Licensed under the Apache License, Version 2.0. See LICENSE file for details.
-
 import torch
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling
@@ -23,7 +20,6 @@ class StrategyModel:
         try:
             logger.info(f"Loading base model: {self.model_name}")
             
-            # Check if CUDA is available and working
             has_cuda = False
             try:
                 has_cuda = torch.cuda.is_available() and torch.cuda.device_count() > 0
@@ -34,7 +30,6 @@ class StrategyModel:
             logger.info(f"CUDA available: {has_cuda}")
             
             if has_cuda:
-                # GPU available - use 8-bit quantization
                 logger.info("Loading model with 8-bit quantization on GPU...")
                 try:
                     model = AutoModelForCausalLM.from_pretrained(
@@ -49,7 +44,6 @@ class StrategyModel:
                     has_cuda = False
             
             if not has_cuda:
-                # CPU only - load in full precision
                 logger.info("Loading model on CPU (this will use more RAM)...")
                 logger.info("⚠️  Training on CPU will be SLOW (4-8 hours). Consider using GPU or smaller model.")
                 model = AutoModelForCausalLM.from_pretrained(
@@ -71,7 +65,6 @@ class StrategyModel:
             
             peft_model = get_peft_model(model, lora_config)
             
-            # Enable input gradients for gradient checkpointing with 8-bit models
             peft_model.enable_input_require_grads()
             
             logger.info(f"✅ Model loaded successfully with LoRA (rank={self.lora_r})")
@@ -83,10 +76,7 @@ class StrategyModel:
             raise
 
     def tokenize_function(self, examples):
-        # Tokenize the text
         tokenized = self.tokenizer(examples["text"], truncation=True, padding="max_length", max_length=512)
-        # Add labels (for causal LM, labels are the same as input_ids)
-        # Need to create a copy for each example in the batch
         tokenized["labels"] = [input_ids[:] for input_ids in tokenized["input_ids"]]
         return tokenized
 
@@ -98,7 +88,6 @@ class StrategyModel:
             logger.info("Tokenizing dataset...")
             tokenized_dataset = self.dataset.map(self.tokenize_function, batched=True)
             
-            # Remove only columns that exist (keep only model inputs: input_ids, attention_mask, labels)
             columns_to_remove = [col for col in ["text", "label", "sentence"] if col in tokenized_dataset.column_names]
             if columns_to_remove:
                 logger.info(f"Removing columns: {columns_to_remove}")
@@ -115,16 +104,16 @@ class StrategyModel:
         return TrainingArguments(
             output_dir=output_dir,
             num_train_epochs=epochs,
-            per_device_train_batch_size=1,  # Batch size 1 for 6GB GPU compatibility
-            gradient_accumulation_steps=8,  # Increased to maintain effective batch size
+            per_device_train_batch_size=1,
+            gradient_accumulation_steps=8,
             warmup_steps=100,
             learning_rate=2e-4,
             fp16=True if torch.cuda.is_available() else False,
             logging_steps=10,
             save_steps=500,
-            eval_strategy="no",  # Changed from evaluation_strategy (deprecated)
+            eval_strategy="no",
             remove_unused_columns=False,
-            gradient_checkpointing=True,  # Enable to reduce memory usage
+            gradient_checkpointing=True,
         )
 
     def train_local(self, data_path="./formatted_data", epochs=3):
@@ -133,10 +122,9 @@ class StrategyModel:
             self.model = self.load_model()
             args = self.get_training_args()
             
-            # Use data collator for language modeling (handles labels automatically)
             data_collator = DataCollatorForLanguageModeling(
                 tokenizer=self.tokenizer,
-                mlm=False  # False for causal LM (GPT-style), True for masked LM (BERT-style)
+                mlm=False
             )
             
             trainer = Trainer(
@@ -146,23 +134,19 @@ class StrategyModel:
                 data_collator=data_collator
             )
             
-            # Check for existing checkpoint to resume from
             checkpoint_dir = "./quant-strat-forge"
             resume_checkpoint = None
             if os.path.isdir(checkpoint_dir):
-                # Find all checkpoint directories
                 checkpoints = [
                     os.path.join(checkpoint_dir, d) 
                     for d in os.listdir(checkpoint_dir) 
                     if d.startswith("checkpoint-") and os.path.isdir(os.path.join(checkpoint_dir, d))
                 ]
                 if checkpoints:
-                    # Get the latest checkpoint by step number
                     latest_checkpoint = max(checkpoints, key=lambda x: int(x.split("-")[-1]))
                     resume_checkpoint = latest_checkpoint
                     logger.info(f"🔄 Resuming training from checkpoint: {resume_checkpoint}")
             
-            # Train (resume from checkpoint if available)
             trainer.train(resume_from_checkpoint=resume_checkpoint)
             
             self.model.save_pretrained("./quant-strat-forge")

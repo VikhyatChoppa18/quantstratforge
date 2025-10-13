@@ -252,7 +252,7 @@ StratForge/
 
 ## 📞 Contact & Support
 
-**Primary Contact**: Venkata Vikhyat Choppa <vikkychoppa@gmail.com>
+**Primary Contact**: Venkata Vikhyat Choppa <vikhyathchoppa699@gmail.com>
 
 **For Licensing**: Commercial licensing inquiries
 **For Technical Support**: Implementation and integration help

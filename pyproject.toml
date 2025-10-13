@@ -5,8 +5,8 @@ description = "Privacy-preserving agentic SLM for quant strategy forging"
 authors = ["Venkata Vikhyat Choppa"]
 readme = "README.md"
 license = "Apache-2.0"
-homepage = "https://github.com/vikkychoppa/quantstratforge"
-repository = "https://github.com/vikkychoppa/quantstratforge"
+homepage = "https://github.com/vikhyatchoppa/quantstratforge"
+repository = "https://github.com/vikhyatchoppa/quantstratforge"
 keywords = ["quantitative", "trading", "ai", "machine-learning", "finance", "privacy", "federated-learning"]
 classifiers = [
     "Development Status :: 4 - Beta",
